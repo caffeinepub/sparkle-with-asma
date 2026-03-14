@@ -99,6 +99,15 @@ const SEED_STORIES = [
     bodyAr:
       "في مرج مشمس مليء بالزهور الملوّنة والعشب الأخضر الطري، كان يعيش أرنب صغير ذو أذنين طويلتين وعيون لامعة. كان يُعرف بين أصدقائه بذكائه وخفة حيلته.\n\nكان في الغابة القريبة ذئب كبير غاضب دائم المزاج. كان يزعج الحيوانات ويخيفها كل يوم. أكثر ما يضايقه هو الأرنب الصغير الذكي الذي لم يستطع يوماً أن يمسك به. كل يوم كان يقول بصوت غليظ: أيها الأرنب الصغير! سأمسك بك اليوم ولا مفر! فيضحك الأرنب ويقفز ويقول: ليس اليوم يا ذئب، ربما غداً! وكان يختفي بين الأعشاب.\n\nذات يوم، جاء الذئب وهو أكثر غضباً من المعتاد. كان الأرنب يفكر بسرعة، ثم رأى بركة ماء صافية تعكس الأشجار والسماء كمرآة. ابتسم الأرنب وقال: تعال يا ذئب، سأريك شيئاً مثيراً!\n\nأخذ الأرنب الذئب إلى حافة البركة وقال: انظر! هناك ذئب آخر في الماء يريد أن ينافسك ويأخذ غابتك! نظر الذئب في الماء فرأى انعكاسه. نبح الذئب فرأى الذئب في الماء ينبح معه. أصابه الهلع وهرب بسرعة البرق ولم يعد إلى المرج أبداً.\n\nضحك الأرنب حتى كاد يسقط، ثم نادى أصدقاءه. احتفلوا جميعاً وقفزوا من الفرح. وعاشوا جميعاً في المرج بسعادة وأمان.",
   },
+  {
+    title: "The Three Fish",
+    titleAr: "السمكات الثلاث",
+    emoji: "🐟",
+    colorTheme: "emerald",
+    body: "In a quiet pond lived three fish: the Decisive, the Helpless, and the Lazy. One day two fishermen came planning to cast their nets. The Decisive fish heard them and immediately swam to safety through an outlet. The Helpless fish waited, then cleverly pretended to be dead and was thrown back into the water. But the Lazy fish kept delaying until it was caught in the net.",
+    bodyAr:
+      "زَعَموا أَنَّهُ كانَ في غَديرٍ ثَلاثُ سَمَكاتٍ: حَازِمَةٌ، وَعاجِزَةٌ، وَكَسولَةٌ. وَفي يَومٍ جاءَ صَيّادانِ وَتَواعَدا أَن يَأتِيا بِشِباكِهِما لِيَصيدا ما فيهِ. سَمِعَت السَّمَكاتُ قَولَهُما. فَأَمّا الحَازِمَةُ، فَلَم تَنتَظِر؛ بَل خَرَجَت فَوراً مِن مَخرَجِ الماءِ إِلى النَّهرِ وَنَجَت. وَأَمّا العاجِزَةُ، فَانتَظَرَت حَتّى جاءَ الصَيّادانِ، فَتَظاهَرَت بِالمَوتِ فَطَفَت عَلى الماءِ، فَظَنَّها الصَيّادُ مَيِّتَةً فَرَمى بِها فَنَجَت. وَأَمّا الكَسولَةُ، فَبَقِيَت تُماطِلُ حَتّى اصطيدَت. وَكانَ في ذلِكَ عِبرَةٌ: مَن تَسرَّعَ في النَّجاةِ نَجا، وَمَن تَرَدَّدَ هَلَك.",
+  },
 ];
 
 const EMPTY_FORM = {
@@ -1393,6 +1402,104 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       correct: 0,
     },
   ],
+  3: [
+    {
+      hat: "white",
+      hatEmoji: "🎩",
+      hatLabel: "القبعة البيضاء – الحقائق",
+      bg: "#f8fafc",
+      border: "#94a3b8",
+      textColor: "#1e293b",
+      question: "كَم عَدَدُ السَّمَكاتِ في القِصَّةِ وَما أَسماؤُهُنَّ؟",
+      options: [
+        "ثَلاثٌ: حازِمَةٌ وعاجِزَةٌ وكَسولَةٌ",
+        "اثنَتانِ: حازِمَةٌ وكَسولَةٌ",
+        "أَربَعٌ: حازِمَةٌ وعاجِزَةٌ وكَسولَةٌ وذَكِيَّةٌ",
+        "ثَلاثٌ: كَبيرَةٌ وصَغيرَةٌ وَوَسَطٌ",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "red",
+      hatEmoji: "❤️",
+      hatLabel: "القبعة الحمراء – المشاعر",
+      bg: "#fef2f2",
+      border: "#ef4444",
+      textColor: "#7f1d1d",
+      question: "بِماذا شَعَرَت السَّمَكَةُ الكَسولَةُ عِندَما وَقَعَت في الشَّبَكَةِ؟",
+      options: [
+        "بِالنَّدَمِ لِأَنَّها لَم تُبادِر",
+        "بِالسَّعادَةِ لِأَنَّها لَم تَتعَب",
+        "بِعَدَمِ الاكتِراثِ",
+        "بِالفَخرِ بِنَفسِها",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "black",
+      hatEmoji: "🖤",
+      hatLabel: "القبعة السوداء – المخاطر",
+      bg: "#1e293b",
+      border: "#334155",
+      textColor: "#f1f5f9",
+      question: "ما عاقِبَةُ المُماطَلَةِ وَتَأجيلِ القَراراتِ كَما في القِصَّةِ؟",
+      options: [
+        "الوُقوعُ في الخَطَرِ وَالضَّياعُ",
+        "النَّجاحُ في نِهايَةِ المَطافِ",
+        "الحُصولُ عَلى المَساعَدَةِ",
+        "لا شَيءَ يَتَغَيَّر",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "yellow",
+      hatEmoji: "⭐",
+      hatLabel: "القبعة الصفراء – الفوائد",
+      bg: "#fefce8",
+      border: "#eab308",
+      textColor: "#713f12",
+      question: "ما فائِدَةُ اتِّخاذِ القَرارِ السَّريعِ مِثلَ السَّمَكَةِ الحازِمَةِ؟",
+      options: [
+        "يُنقِذُكَ مِنَ الأَخطارِ قَبلَ فَواتِ الأَوانِ",
+        "يُسَبِّبُ لَكَ مَشاكِلَ أَكثَرَ",
+        "لا يَجدي نَفعاً",
+        "يُغضِبُ الآخَرين",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "green",
+      hatEmoji: "🌿",
+      hatLabel: "القبعة الخضراء – الإبداع",
+      bg: "#f0fdf4",
+      border: "#22c55e",
+      textColor: "#14532d",
+      question: "لَو كُنتَ مَكانَ السَّمَكَةِ الكَسولَةِ، كَيفَ كُنتَ سَتَنجو بِطَريقَةٍ مُبتَكَرَةٍ؟",
+      options: [
+        "كُنتُ سَأَتَظاهَرُ بِالمَرَضِ",
+        "كُنتُ سَأَطلُبُ المُساعَدَةَ",
+        "كُنتُ سَأَبحَثُ عَن مَخرَجٍ آخَر",
+        "كُنتُ سَأَبقى وَأَتَقَبَّلُ النَّتيجَة",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "blue",
+      hatEmoji: "💙",
+      hatLabel: "القبعة الزرقاء – الخلاصة",
+      bg: "#eff6ff",
+      border: "#3b82f6",
+      textColor: "#1e3a8a",
+      question: "ما الدَّرسُ الأَهَمُّ الَّذي تَعَلَّمتَهُ مِن قِصَّةِ السَّمَكاتِ الثَّلاثِ؟",
+      options: [
+        "الحازِمُ يَنجو وَالمُتَرَدِّدُ يَخسَر",
+        "التَّأَنّي دائِماً أَفضَل",
+        "الذَّكاءُ وَحدَهُ يَكفي",
+        "الصَّبرُ مِفتاحُ الفَرَج",
+      ],
+      correct: 0,
+    },
+  ],
 };
 
 const ARABIC_NUMS = ["١", "٢", "٣", "٤", "٥", "٦"];
@@ -1611,6 +1718,228 @@ function SixHatsQuiz({
   );
 }
 
+// ── Certificate Modal ──
+const CONFETTI_COLORS = [
+  "#f59e0b",
+  "#ef4444",
+  "#3b82f6",
+  "#10b981",
+  "#8b5cf6",
+  "#f97316",
+  "#ec4899",
+  "#06b6d4",
+  "#84cc16",
+  "#a78bfa",
+];
+
+function CertificateModal({
+  open,
+  onClose,
+  storyTitle,
+  studentName,
+  onStudentNameChange,
+}: {
+  open: boolean;
+  onClose: () => void;
+  storyTitle: string;
+  studentName: string;
+  onStudentNameChange: (name: string) => void;
+}) {
+  const today = new Date().toLocaleDateString("ar-SA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const confettiPieces = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    left: `${(i * 3.5) % 100}%`,
+    delay: `${(i * 0.15) % 3}s`,
+    size: i % 3 === 0 ? 12 : i % 3 === 1 ? 8 : 10,
+    shape: i % 2 === 0 ? "circle" : "rect",
+  }));
+
+  function handlePrint() {
+    window.print();
+  }
+
+  if (!open) return null;
+
+  return (
+    <>
+      <style>{`
+        @keyframes confettiFall {
+          0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes shimmer {
+          0%, 100% { box-shadow: 0 0 20px 4px #f59e0b88; }
+          50% { box-shadow: 0 0 40px 8px #fbbf24cc; }
+        }
+        @media print {
+          body > * { display: none !important; }
+          [data-cert="true"] { display: block !important; position: fixed !important; inset: 0 !important; z-index: 9999 !important; }
+          [data-cert="true"] .no-print { display: none !important; }
+        }
+      `}</style>
+      <AnimatePresence>
+        <motion.div
+          data-ocid="certificate.modal"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.65)" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) onClose();
+          }}
+        >
+          {/* Confetti */}
+          <div className="fixed inset-0 pointer-events-none overflow-hidden">
+            {confettiPieces.map((p) => (
+              <div
+                key={p.id}
+                style={{
+                  position: "absolute",
+                  top: "-20px",
+                  left: p.left,
+                  width: p.size,
+                  height: p.size,
+                  backgroundColor: p.color,
+                  borderRadius: p.shape === "circle" ? "50%" : "2px",
+                  animation: `confettiFall ${2 + (p.id % 3)}s ${p.delay} linear infinite`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Certificate Card */}
+          <motion.div
+            data-cert="true"
+            initial={{ scale: 0.7, y: 60, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.7, y: 60, opacity: 0 }}
+            transition={{ type: "spring", damping: 18, stiffness: 260 }}
+            className="relative w-full max-w-lg bg-gradient-to-b from-amber-50 to-yellow-100 rounded-3xl border-4 border-yellow-400 shadow-2xl overflow-hidden"
+            style={{
+              animation: "shimmer 2s ease-in-out infinite",
+              fontFamily: "'Tajawal', sans-serif",
+            }}
+            dir="rtl"
+          >
+            {/* Gold top ribbon */}
+            <div className="h-3 w-full bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300" />
+
+            <div className="p-6 text-center">
+              {/* Trophy */}
+              <div className="text-6xl mb-2">🏆</div>
+              <h2
+                className="text-2xl font-black text-amber-800 mb-1"
+                style={{ fontFamily: "'Tajawal', sans-serif" }}
+              >
+                شهادة الحكواتي الصغير
+              </h2>
+              <p className="text-lg font-bold text-amber-700 mb-4">
+                مبارك يا بطل! أنت الآن حكواتي متميز 🌟
+              </p>
+
+              {/* Student name input */}
+              <div className="mb-4 text-right">
+                <label
+                  htmlFor="cert-name-input"
+                  className="block text-sm font-bold text-amber-800 mb-1"
+                >
+                  ✏️ اكتب اسمك هنا:
+                </label>
+                <input
+                  id="cert-name-input"
+                  data-ocid="certificate.input"
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => onStudentNameChange(e.target.value)}
+                  placeholder="اسم الطالب..."
+                  className="w-full border-2 border-amber-300 rounded-xl px-3 py-2 text-right text-amber-900 font-bold bg-white/70 placeholder-amber-400 focus:outline-none focus:border-amber-500"
+                  style={{
+                    fontFamily: "'Tajawal', sans-serif",
+                    fontSize: "1.1rem",
+                  }}
+                  dir="rtl"
+                />
+                {studentName && (
+                  <p className="mt-2 text-xl font-black text-amber-900">
+                    🎖️ {studentName}
+                  </p>
+                )}
+              </div>
+
+              {/* Story title */}
+              <div className="bg-white/60 rounded-2xl p-3 mb-4 border border-amber-200">
+                <p className="text-amber-800 font-bold text-sm">أتممتَ قصة:</p>
+                <p className="text-amber-900 font-black text-lg">
+                  📖 {storyTitle}
+                </p>
+              </div>
+
+              {/* Date */}
+              <p className="text-amber-700 text-sm mb-4">📅 {today}</p>
+
+              {/* Gold Seal */}
+              <div className="flex justify-center mb-4">
+                <div
+                  className="w-20 h-20 rounded-full flex flex-col items-center justify-center text-white font-black text-xs"
+                  style={{
+                    background: "radial-gradient(circle, #fbbf24, #d97706)",
+                    boxShadow: "0 0 16px 4px #fbbf2488",
+                    border: "3px solid #f59e0b",
+                  }}
+                >
+                  <span className="text-2xl">⭐</span>
+                  <span style={{ fontSize: "10px" }}>ختم الشرف</span>
+                </div>
+              </div>
+
+              {/* Signature */}
+              <div className="border-t border-amber-300 pt-3 mb-5">
+                <p className="text-amber-800 font-bold text-sm">
+                  توقيع المعلمة:
+                </p>
+                <p className="text-amber-900 font-black text-lg">
+                  أسماء بودبالة 🌸
+                </p>
+                <div className="mt-1 mx-auto w-32 h-0.5 bg-amber-400 rounded" />
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3 justify-center no-print">
+                <button
+                  type="button"
+                  data-ocid="certificate.primary_button"
+                  onClick={handlePrint}
+                  className="flex-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-white font-black py-2.5 px-4 rounded-2xl shadow-md hover:scale-105 transition-transform text-sm"
+                >
+                  تحميل الشهادة 📥
+                </button>
+                <button
+                  type="button"
+                  data-ocid="certificate.close_button"
+                  onClick={onClose}
+                  className="flex-1 bg-white border-2 border-amber-300 text-amber-700 font-black py-2.5 px-4 rounded-2xl hover:bg-amber-50 transition-colors text-sm"
+                >
+                  إغلاق ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Gold bottom ribbon */}
+            <div className="h-3 w-full bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-300" />
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    </>
+  );
+}
+
 // ── Main App ──
 export default function App() {
   const { actor, isFetching } = useActor();
@@ -1666,6 +1995,11 @@ export default function App() {
     });
   }
 
+  // ── Certificate state ──
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [certificateStoryTitle, setCertificateStoryTitle] = useState("");
+  const [studentName, setStudentName] = useState("");
+
   // ── Quiz completion state ──
   const [quizCompletedStories, setQuizCompletedStories] = useState<Set<string>>(
     () => {
@@ -1677,7 +2011,7 @@ export default function App() {
     },
   );
 
-  function markQuizComplete(storyId: string) {
+  function markQuizComplete(storyId: string, storyTitleAr: string) {
     setQuizCompletedStories((prev) => {
       const next = new Set(prev);
       next.add(storyId);
@@ -1699,6 +2033,8 @@ export default function App() {
         duration: 4000,
       },
     );
+    setCertificateStoryTitle(storyTitleAr);
+    setShowCertificate(true);
   }
 
   // ── Music player state ──
@@ -2490,10 +2826,13 @@ export default function App() {
                         storyId={selectedStory.id.toString()}
                         storyIndex={
                           stories.findIndex((s) => s.id === selectedStory.id) %
-                          3
+                          4
                         }
                         onQuizComplete={() =>
-                          markQuizComplete(selectedStory.id.toString())
+                          markQuizComplete(
+                            selectedStory.id.toString(),
+                            selectedStory.titleAr || selectedStory.title,
+                          )
                         }
                       />
                     )}
@@ -2793,6 +3132,15 @@ export default function App() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Certificate Modal */}
+      <CertificateModal
+        open={showCertificate}
+        onClose={() => setShowCertificate(false)}
+        storyTitle={certificateStoryTitle}
+        studentName={studentName}
+        onStudentNameChange={setStudentName}
+      />
     </div>
   );
 }
