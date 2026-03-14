@@ -10,7 +10,38 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface _SERVICE {}
+export interface AddStoryInput {
+  'title' : string,
+  'colorTheme' : string,
+  'body' : string,
+  'bodyAr' : string,
+  'emoji' : string,
+  'titleAr' : string,
+}
+export interface Story {
+  'id' : bigint,
+  'title' : string,
+  'colorTheme' : string,
+  'body' : string,
+  'bodyAr' : string,
+  'emoji' : string,
+  'titleAr' : string,
+}
+export interface UpdateStoryInput {
+  'id' : bigint,
+  'title' : string,
+  'colorTheme' : string,
+  'body' : string,
+  'bodyAr' : string,
+  'emoji' : string,
+  'titleAr' : string,
+}
+export interface _SERVICE {
+  'addStory' : ActorMethod<[AddStoryInput], Story>,
+  'deleteStory' : ActorMethod<[bigint], undefined>,
+  'getStories' : ActorMethod<[], Array<Story>>,
+  'updateStory' : ActorMethod<[UpdateStoryInput], undefined>,
+}
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];
 export declare const idlFactory: IDL.InterfaceFactory;

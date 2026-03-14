@@ -89,10 +89,96 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface AddStoryInput {
+    title: string;
+    colorTheme: string;
+    body: string;
+    bodyAr: string;
+    emoji: string;
+    titleAr: string;
+}
+export interface UpdateStoryInput {
+    id: bigint;
+    title: string;
+    colorTheme: string;
+    body: string;
+    bodyAr: string;
+    emoji: string;
+    titleAr: string;
+}
+export interface Story {
+    id: bigint;
+    title: string;
+    colorTheme: string;
+    body: string;
+    bodyAr: string;
+    emoji: string;
+    titleAr: string;
+}
 export interface backendInterface {
+    addStory(input: AddStoryInput): Promise<Story>;
+    deleteStory(id: bigint): Promise<void>;
+    getStories(): Promise<Array<Story>>;
+    updateStory(input: UpdateStoryInput): Promise<void>;
 }
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
+    async addStory(arg0: AddStoryInput): Promise<Story> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addStory(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addStory(arg0);
+            return result;
+        }
+    }
+    async deleteStory(arg0: bigint): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.deleteStory(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.deleteStory(arg0);
+            return result;
+        }
+    }
+    async getStories(): Promise<Array<Story>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getStories();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getStories();
+            return result;
+        }
+    }
+    async updateStory(arg0: UpdateStoryInput): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.updateStory(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.updateStory(arg0);
+            return result;
+        }
+    }
 }
 export interface CreateActorOptions {
     agent?: Agent;

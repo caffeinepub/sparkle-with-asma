@@ -8,10 +8,76 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const idlService = IDL.Service({});
+export const AddStoryInput = IDL.Record({
+  'title' : IDL.Text,
+  'colorTheme' : IDL.Text,
+  'body' : IDL.Text,
+  'bodyAr' : IDL.Text,
+  'emoji' : IDL.Text,
+  'titleAr' : IDL.Text,
+});
+export const Story = IDL.Record({
+  'id' : IDL.Nat,
+  'title' : IDL.Text,
+  'colorTheme' : IDL.Text,
+  'body' : IDL.Text,
+  'bodyAr' : IDL.Text,
+  'emoji' : IDL.Text,
+  'titleAr' : IDL.Text,
+});
+export const UpdateStoryInput = IDL.Record({
+  'id' : IDL.Nat,
+  'title' : IDL.Text,
+  'colorTheme' : IDL.Text,
+  'body' : IDL.Text,
+  'bodyAr' : IDL.Text,
+  'emoji' : IDL.Text,
+  'titleAr' : IDL.Text,
+});
+
+export const idlService = IDL.Service({
+  'addStory' : IDL.Func([AddStoryInput], [Story], []),
+  'deleteStory' : IDL.Func([IDL.Nat], [], []),
+  'getStories' : IDL.Func([], [IDL.Vec(Story)], ['query']),
+  'updateStory' : IDL.Func([UpdateStoryInput], [], []),
+});
 
 export const idlInitArgs = [];
 
-export const idlFactory = ({ IDL }) => { return IDL.Service({}); };
+export const idlFactory = ({ IDL }) => {
+  const AddStoryInput = IDL.Record({
+    'title' : IDL.Text,
+    'colorTheme' : IDL.Text,
+    'body' : IDL.Text,
+    'bodyAr' : IDL.Text,
+    'emoji' : IDL.Text,
+    'titleAr' : IDL.Text,
+  });
+  const Story = IDL.Record({
+    'id' : IDL.Nat,
+    'title' : IDL.Text,
+    'colorTheme' : IDL.Text,
+    'body' : IDL.Text,
+    'bodyAr' : IDL.Text,
+    'emoji' : IDL.Text,
+    'titleAr' : IDL.Text,
+  });
+  const UpdateStoryInput = IDL.Record({
+    'id' : IDL.Nat,
+    'title' : IDL.Text,
+    'colorTheme' : IDL.Text,
+    'body' : IDL.Text,
+    'bodyAr' : IDL.Text,
+    'emoji' : IDL.Text,
+    'titleAr' : IDL.Text,
+  });
+  
+  return IDL.Service({
+    'addStory' : IDL.Func([AddStoryInput], [Story], []),
+    'deleteStory' : IDL.Func([IDL.Nat], [], []),
+    'getStories' : IDL.Func([], [IDL.Vec(Story)], ['query']),
+    'updateStory' : IDL.Func([UpdateStoryInput], [], []),
+  });
+};
 
 export const init = ({ IDL }) => { return []; };
