@@ -630,8 +630,48 @@ function getStoryIcon(idx: number) {
 }
 
 // ── Reading Progress Tree Component ──
-function ReadingProgressTree({ completedCount }: { completedCount: number }) {
+function ReadingProgressTree({
+  completedCount,
+  quizCompletedCount,
+}: { completedCount: number; quizCompletedCount: number }) {
   const leaves = Array.from({ length: completedCount }, (_, i) => i);
+  const quizLeaves = Array.from({ length: quizCompletedCount }, (_, i) => i);
+
+  // Speech bubble messages based on progress
+  const getMessages = () => {
+    const msgs: string[] = [];
+    if (completedCount === 0) {
+      msgs.push("مرحباً يا بطل! 🌱 اقرأ قصة لتنمو أوراقي!");
+      msgs.push("أنا شجرتك المفضلة… أنتظر أول ورقة منك! 🌿");
+    } else if (completedCount === 1) {
+      msgs.push("أحسنتَ يا صديقي! 🍃 ورقتك الأولى أضاءت فروعي!");
+      msgs.push("هيّا، قصة أخرى تجعلني أكبر وأجمل! 🌳");
+    } else if (completedCount === 2) {
+      msgs.push("رائع يا صديقي! 🌿 أنا أكبر معك كلما قرأتَ!");
+      msgs.push("نحن معاً نبني غابة من الكلمات! 📚");
+    } else {
+      msgs.push("يا لكَ من قارئ مميز! 🌳 فخور بكَ جداً!");
+      msgs.push("أنتَ نجم القراءة ⭐ استمر هكذا!");
+    }
+    if (quizCompletedCount > 0) {
+      msgs.push("⭐ أجبتَ على أسئلة القبعات! عبقري حقيقي!");
+    }
+    return msgs;
+  };
+
+  const messages = getMessages();
+  const [msgIndex, setMsgIndex] = useState(0);
+
+  useEffect(() => {
+    if (messages.length <= 1) return;
+    const timer = setInterval(() => {
+      setMsgIndex((prev) => (prev + 1) % messages.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [messages.length]);
+
+  const currentMsg = messages[msgIndex % messages.length];
+
   return (
     <motion.div
       data-ocid="home.progress_tree"
@@ -657,8 +697,72 @@ function ReadingProgressTree({ completedCount }: { completedCount: number }) {
           </h3>
         </div>
 
+        {/* Speech Bubble */}
+        <div
+          className="flex flex-col items-center px-5 pt-4 pb-0"
+          data-ocid="tree.speech_bubble"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentMsg}
+              initial={{ opacity: 0, y: -6, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -4, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="relative"
+            >
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+                className="relative bg-white border-2 border-emerald-300 rounded-2xl px-4 py-2.5 shadow-md max-w-[260px] text-center"
+              >
+                <p
+                  className="text-emerald-800 font-black text-base leading-snug"
+                  dir="rtl"
+                  style={{ fontFamily: "'Tajawal', sans-serif" }}
+                >
+                  {currentMsg}
+                </p>
+              </motion.div>
+              {/* Bubble tail pointing down toward tree */}
+              <div
+                className="mx-auto"
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "10px solid transparent",
+                  borderRight: "10px solid transparent",
+                  borderTop: "12px solid #6ee7b7",
+                  position: "relative",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  marginTop: "-1px",
+                }}
+              />
+              <div
+                className="mx-auto"
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "8px solid transparent",
+                  borderRight: "8px solid transparent",
+                  borderTop: "10px solid white",
+                  position: "relative",
+                  left: "50%",
+                  transform: "translateX(-50%) translateY(-22px)",
+                  marginBottom: "-12px",
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
         {/* Tree art */}
-        <div className="flex flex-col items-center px-6 pt-5 pb-2">
+        <div className="flex flex-col items-center px-6 pt-3 pb-2">
           {completedCount === 0 ? (
             <motion.div
               initial={{ scale: 0.8 }}
@@ -683,7 +787,7 @@ function ReadingProgressTree({ completedCount }: { completedCount: number }) {
                 <div className="flex flex-wrap justify-center gap-1 mb-1 max-w-[200px]">
                   {leaves.map((i) => (
                     <motion.span
-                      key={i}
+                      key={`green-${i}`}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{
@@ -693,10 +797,30 @@ function ReadingProgressTree({ completedCount }: { completedCount: number }) {
                         stiffness: 200,
                       }}
                       className="text-2xl select-none"
+                      style={{ display: "inline-block" }}
+                      title="قصة مكتملة"
+                    >
+                      🍃
+                    </motion.span>
+                  ))}
+                  {quizLeaves.map((i) => (
+                    <motion.span
+                      key={`gold-${i}`}
+                      initial={{ scale: 0, opacity: 0, rotate: -20 }}
+                      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: completedCount * 0.15 + i * 0.2,
+                        type: "spring",
+                        stiffness: 180,
+                      }}
+                      className="text-2xl select-none"
                       style={{
                         display: "inline-block",
-                        filter: `hue-rotate(${i * 20}deg)`,
+                        filter:
+                          "sepia(1) saturate(5) hue-rotate(15deg) brightness(1.1)",
                       }}
+                      title="اختبار مكتمل"
                     >
                       🍃
                     </motion.span>
@@ -722,7 +846,7 @@ function ReadingProgressTree({ completedCount }: { completedCount: number }) {
           )}
 
           {/* Count badge */}
-          <div className="mt-3 mb-2">
+          <div className="mt-3 mb-2 flex flex-col items-center gap-1">
             <span
               className="inline-block bg-white/80 border-2 border-emerald-300 text-emerald-700 font-black text-base rounded-2xl px-4 py-1.5 shadow-sm"
               dir="rtl"
@@ -732,6 +856,33 @@ function ReadingProgressTree({ completedCount }: { completedCount: number }) {
                 ? "لم تُكمل أي قصة بعد"
                 : `أكملتَ ${completedCount} ${completedCount === 1 ? "قصة" : "قصص"} 🎉`}
             </span>
+            {quizCompletedCount > 0 && (
+              <span
+                className="inline-block bg-yellow-50 border-2 border-yellow-300 text-yellow-700 font-bold text-sm rounded-2xl px-3 py-1 shadow-sm"
+                dir="rtl"
+                style={{ fontFamily: "'Tajawal', sans-serif" }}
+              >
+                🌟 {quizCompletedCount} اختبار قبعات مكتمل
+              </span>
+            )}
+          </div>
+          {/* Legend */}
+          <div
+            className="flex gap-3 justify-center pb-2 text-xs text-gray-500"
+            dir="rtl"
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            <span>🍃 قصة مكتملة</span>
+            <span
+              style={{
+                filter:
+                  "sepia(1) saturate(5) hue-rotate(15deg) brightness(1.1)",
+                display: "inline-block",
+              }}
+            >
+              🍃
+            </span>
+            <span>اختبار مكتمل</span>
           </div>
         </div>
       </div>
@@ -942,6 +1093,524 @@ function LittleStoryteller() {
   );
 }
 
+// ── Six Thinking Hats Quiz ──
+interface QuizQuestion {
+  hat: string;
+  hatEmoji: string;
+  hatLabel: string;
+  bg: string;
+  border: string;
+  textColor: string;
+  question: string;
+  options: string[];
+  correct: number;
+}
+
+const QUIZ_DATA: Record<number, QuizQuestion[]> = {
+  0: [
+    {
+      hat: "white",
+      hatEmoji: "🎩",
+      hatLabel: "القبعة البيضاء – الحقائق",
+      bg: "#f8fafc",
+      border: "#94a3b8",
+      textColor: "#1e293b",
+      question: "ما اسم الأسد في قصة الأسد والثور؟",
+      options: ["شاه يكون", "دمنة", "شتربة", "الغراب"],
+      correct: 0,
+    },
+    {
+      hat: "red",
+      hatEmoji: "❤️",
+      hatLabel: "القبعة الحمراء – المشاعر",
+      bg: "#fef2f2",
+      border: "#ef4444",
+      textColor: "#7f1d1d",
+      question: "كيف تشعرُ عندما يحاول أحدٌ أن يُفسد صداقة بين شخصين؟",
+      options: ["غاضب وحزين", "سعيد ومبسوط", "غير مبالٍ", "خائف فقط"],
+      correct: 0,
+    },
+    {
+      hat: "black",
+      hatEmoji: "🖤",
+      hatLabel: "القبعة السوداء – المخاطر",
+      bg: "#1e293b",
+      border: "#334155",
+      textColor: "#f1f5f9",
+      question: "ما الخطر الذي واجهه الأسد والثور في القصة؟",
+      options: [
+        "كذب دمنة وتلاعبه",
+        "هجوم حيوانات الغابة",
+        "الجوع والجفاف",
+        "العواصف والأمطار",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "yellow",
+      hatEmoji: "⭐",
+      hatLabel: "القبعة الصفراء – الفوائد",
+      bg: "#fefce8",
+      border: "#eab308",
+      textColor: "#713f12",
+      question: "ما فائدة الصداقة الحقيقية القائمة على الثقة؟",
+      options: [
+        "تحمي من الخداع وتجلب السعادة",
+        "لا فائدة منها",
+        "تجعلنا نتفق دائماً",
+        "تجلب المشكلات فقط",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "green",
+      hatEmoji: "🌿",
+      hatLabel: "القبعة الخضراء – الإبداع",
+      bg: "#f0fdf4",
+      border: "#22c55e",
+      textColor: "#14532d",
+      question: "لو كنتَ مكان الأسد، ماذا كنتَ ستفعل مع دمنة؟",
+      options: [
+        "أتحدث معه وأعطيه فرصة للتوبة",
+        "أطرده من الغابة فوراً",
+        "أتجاهله تماماً",
+        "أطلب منه المساعدة",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "blue",
+      hatEmoji: "💙",
+      hatLabel: "القبعة الزرقاء – الخلاصة",
+      bg: "#eff6ff",
+      border: "#3b82f6",
+      textColor: "#1e3a8a",
+      question: "ما الدرس الأهم الذي تعلمتَه من قصة الأسد والثور؟",
+      options: [
+        "الصداقة الحقيقية تتغلب على الكذب والخداع",
+        "لا تثق بأي أحد أبداً",
+        "القوة أهم من الصداقة دائماً",
+        "الكذب أحياناً مفيد",
+      ],
+      correct: 0,
+    },
+  ],
+  1: [
+    {
+      hat: "white",
+      hatEmoji: "🎩",
+      hatLabel: "القبعة البيضاء – الحقائق",
+      bg: "#f8fafc",
+      border: "#94a3b8",
+      textColor: "#1e293b",
+      question: "ماذا فعلت المطوّقة لإنقاذ صاحباتها من الشبكة؟",
+      options: [
+        "أمرتهن بالطيران معاً بالشبكة",
+        "ناءت بالشبكة وحدها",
+        "طلبت المساعدة من الصياد",
+        "هربت وتركت صاحباتها",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "red",
+      hatEmoji: "❤️",
+      hatLabel: "القبعة الحمراء – المشاعر",
+      bg: "#fef2f2",
+      border: "#ef4444",
+      textColor: "#7f1d1d",
+      question: "كيف شعرتَ عندما وقعت الحمامات في فخ الصياد؟",
+      options: [
+        "خائف وقلق عليهن",
+        "سعيد ومبسوط",
+        "غير مبالٍ",
+        "غاضب من الحمامات",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "black",
+      hatEmoji: "🖤",
+      hatLabel: "القبعة السوداء – المخاطر",
+      bg: "#1e293b",
+      border: "#334155",
+      textColor: "#f1f5f9",
+      question: "ما الخطر الأكبر الذي واجهته الحمامة المطوقة؟",
+      options: [
+        "الصياد وشبكته",
+        "الغراب في الشجرة",
+        "البرد والمطر",
+        "الجوع والعطش",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "yellow",
+      hatEmoji: "⭐",
+      hatLabel: "القبعة الصفراء – الفوائد",
+      bg: "#fefce8",
+      border: "#eab308",
+      textColor: "#713f12",
+      question: "ما الفائدة التي جناها التعاون في هذه القصة؟",
+      options: [
+        "أنقذ الحمامات جميعها من الصياد",
+        "جعل الحمامات أسرع في الطيران",
+        "كسر الشبكة إلى قطع صغيرة",
+        "أخاف الصياد وجعله يهرب",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "green",
+      hatEmoji: "🌿",
+      hatLabel: "القبعة الخضراء – الإبداع",
+      bg: "#f0fdf4",
+      border: "#22c55e",
+      textColor: "#14532d",
+      question:
+        "فكّر في طريقة إبداعية أخرى كانت تستطيع المطوقة بها إنقاذ صاحباتها",
+      options: [
+        "الاستعانة بالغراب لقطع الشبكة",
+        "الصياح بصوت عالٍ لإخافة الصياد",
+        "الطيران نحو الماء لإغراق الشبكة",
+        "أي فكرة منك تعدّ رائعة! 🌟",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "blue",
+      hatEmoji: "💙",
+      hatLabel: "القبعة الزرقاء – الخلاصة",
+      bg: "#eff6ff",
+      border: "#3b82f6",
+      textColor: "#1e3a8a",
+      question: "ما الحكمة التي تستخلصها من قصة الحمامة المطوقة؟",
+      options: [
+        "الاتحاد قوة والتعاون ينجي الجميع",
+        "كن دائماً حذراً ولا تثق بأحد",
+        "القوة الفردية هي الأساس دائماً",
+        "الهروب أفضل من المواجهة",
+      ],
+      correct: 0,
+    },
+  ],
+  2: [
+    {
+      hat: "white",
+      hatEmoji: "🎩",
+      hatLabel: "القبعة البيضاء – الحقائق",
+      bg: "#f8fafc",
+      border: "#94a3b8",
+      textColor: "#1e293b",
+      question: "كيف تخلّص الأرنب الذكي من الذئب الغاضب؟",
+      options: [
+        "أوهمه بأن هناك ذئباً آخر في البركة",
+        "هرب منه بسرعة كبيرة",
+        "طلب المساعدة من حيوانات الغابة",
+        "تظاهر بالمرض لإشفاقه عليه",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "red",
+      hatEmoji: "❤️",
+      hatLabel: "القبعة الحمراء – المشاعر",
+      bg: "#fef2f2",
+      border: "#ef4444",
+      textColor: "#7f1d1d",
+      question: "كيف شعرتَ حين ابتعد الذئب ولم يعد يزعج الحيوانات؟",
+      options: [
+        "فرحان ومرتاح",
+        "حزين على الذئب",
+        "خائف من عودته",
+        "غير مبالٍ بما حدث",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "black",
+      hatEmoji: "🖤",
+      hatLabel: "القبعة السوداء – المخاطر",
+      bg: "#1e293b",
+      border: "#334155",
+      textColor: "#f1f5f9",
+      question: "ما الخطر الذي كان يواجه حيوانات المرج كل يوم؟",
+      options: [
+        "الذئب الغاضب الذي يخيفهم",
+        "نقص الطعام والماء",
+        "الصياد وأفخاخه",
+        "البرد والجليد",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "yellow",
+      hatEmoji: "⭐",
+      hatLabel: "القبعة الصفراء – الفوائد",
+      bg: "#fefce8",
+      border: "#eab308",
+      textColor: "#713f12",
+      question: "ما فائدة استخدام الذكاء بدلاً من القوة في حل المشكلات؟",
+      options: [
+        "يحل المشكلات بأمان وبدون عنف",
+        "يُعقّد الأمور أكثر",
+        "يحتاج وقتاً طويلاً جداً",
+        "لا فائدة من الذكاء مع الأقوياء",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "green",
+      hatEmoji: "🌿",
+      hatLabel: "القبعة الخضراء – الإبداع",
+      bg: "#f0fdf4",
+      border: "#22c55e",
+      textColor: "#14532d",
+      question:
+        "لو كنتَ مكان الأرنب، ما الحيلة الذكية الأخرى التي كنتَ ستفكر بها؟",
+      options: [
+        "أجمع الحيوانات وتعاونوا معاً ضد الذئب",
+        "أخبر الذئب بأن الغابة مليئة بذئاب أخرى",
+        "أبني جداراً حول المرج لمنع دخوله",
+        "كل هذه أفكار رائعة! 🌟",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "blue",
+      hatEmoji: "💙",
+      hatLabel: "القبعة الزرقاء – الخلاصة",
+      bg: "#eff6ff",
+      border: "#3b82f6",
+      textColor: "#1e3a8a",
+      question: "ما أهم درس تعلمتَه من قصة الأرنب الذكي؟",
+      options: [
+        "الذكاء والحيلة يتغلبان على القوة",
+        "القوة الجسدية هي الأهم دائماً",
+        "الهروب هو الحل الأفضل دائماً",
+        "لا تواجه المشكلات بل تجنّبها",
+      ],
+      correct: 0,
+    },
+  ],
+};
+
+const ARABIC_NUMS = ["١", "٢", "٣", "٤", "٥", "٦"];
+
+function SixHatsQuiz({
+  storyId,
+  storyIndex,
+  onQuizComplete,
+}: {
+  storyId: string;
+  storyIndex: number;
+  onQuizComplete: () => void;
+}) {
+  const questions = QUIZ_DATA[storyIndex] ?? QUIZ_DATA[0];
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const _ = storyId; // used externally
+
+  function handleAnswer(optionIdx: number) {
+    if (selectedAnswer !== null) return;
+    setSelectedAnswer(optionIdx);
+    setShowFeedback(true);
+    setTimeout(() => {
+      setShowFeedback(false);
+      setSelectedAnswer(null);
+      if (currentQ + 1 >= questions.length) {
+        setCompleted(true);
+        onQuizComplete();
+      } else {
+        setCurrentQ((q) => q + 1);
+      }
+    }, 1200);
+  }
+
+  if (completed) {
+    return (
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 200 }}
+        className="rounded-3xl p-8 text-center shadow-xl border-4 border-yellow-300"
+        style={{ background: "linear-gradient(135deg, #fefce8, #fef9c3)" }}
+        dir="rtl"
+      >
+        <div className="text-6xl mb-3">🎉🏆✨</div>
+        <h3
+          className="text-3xl font-black text-yellow-700 mb-2"
+          style={{ fontFamily: "'Tajawal', sans-serif" }}
+        >
+          أحسنتَ! أتممتَ اختبار القبعات الست!
+        </h3>
+        <p
+          className="text-yellow-600 text-lg font-bold"
+          style={{ fontFamily: "'Tajawal', sans-serif" }}
+        >
+          نمت ورقة ذهبية على شجرة القراءة الخاصة بك 🌟
+        </p>
+        <div className="mt-4 flex justify-center gap-2 text-4xl">
+          {questions.map((q, i) => (
+            <motion.span
+              key={q.hat}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: i * 0.1, type: "spring" }}
+            >
+              {q.hatEmoji}
+            </motion.span>
+          ))}
+        </div>
+      </motion.div>
+    );
+  }
+
+  const q = questions[currentQ];
+
+  return (
+    <div dir="rtl">
+      {/* Progress bar */}
+      <div className="flex items-center gap-2 mb-4 justify-center">
+        {questions.map((q, i) => (
+          <div
+            key={q.hat}
+            className="w-8 h-2 rounded-full transition-all duration-300"
+            style={{
+              background:
+                i < currentQ
+                  ? "#22c55e"
+                  : i === currentQ
+                    ? "#f59e0b"
+                    : "#e2e8f0",
+            }}
+          />
+        ))}
+      </div>
+      <p
+        className="text-center text-sm text-gray-500 mb-4 font-bold"
+        style={{ fontFamily: "'Tajawal', sans-serif" }}
+      >
+        السؤال {ARABIC_NUMS[currentQ]} من ٦
+      </p>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentQ}
+          data-ocid={`quiz.hat_button.${currentQ + 1}` as string}
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -60 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="rounded-3xl border-4 p-6 shadow-xl mb-4"
+          style={{
+            background: q.bg,
+            borderColor: q.border,
+            color: q.textColor,
+          }}
+        >
+          {/* Hat icon */}
+          <div className="text-center mb-3">
+            <span className="text-5xl">{q.hatEmoji}</span>
+            <p
+              className="font-black text-base mt-1"
+              style={{
+                fontFamily: "'Tajawal', sans-serif",
+                color: q.textColor,
+              }}
+            >
+              {q.hatLabel}
+            </p>
+          </div>
+
+          {/* Question */}
+          <p
+            className="text-xl font-black text-center mb-5 leading-relaxed"
+            style={{ fontFamily: "'Tajawal', sans-serif", color: q.textColor }}
+          >
+            {q.question}
+          </p>
+
+          {/* Feedback overlay */}
+          <AnimatePresence>
+            {showFeedback && (
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                className="text-center mb-4"
+              >
+                <span
+                  className="text-2xl font-black"
+                  style={{ fontFamily: "'Tajawal', sans-serif" }}
+                >
+                  {q.correct === -1 || selectedAnswer === q.correct
+                    ? "✅ ممتاز!"
+                    : "🌟 إجابة رائعة!"}
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Answer options */}
+          <div className="grid grid-cols-1 gap-3">
+            {q.options.map((opt, i) => {
+              const optKey = `${currentQ}-${i}`;
+              let btnStyle: React.CSSProperties = {
+                background: "rgba(255,255,255,0.85)",
+                borderColor: q.border,
+                color: q.textColor === "#f1f5f9" ? "#1e293b" : q.textColor,
+                fontFamily: "'Tajawal', sans-serif",
+              };
+              if (selectedAnswer !== null) {
+                if (q.correct === -1) {
+                  btnStyle = {
+                    ...btnStyle,
+                    background:
+                      i === selectedAnswer
+                        ? "#bbf7d0"
+                        : "rgba(255,255,255,0.85)",
+                    borderColor: i === selectedAnswer ? "#22c55e" : q.border,
+                  };
+                } else if (i === q.correct) {
+                  btnStyle = {
+                    ...btnStyle,
+                    background: "#bbf7d0",
+                    borderColor: "#22c55e",
+                  };
+                } else if (i === selectedAnswer) {
+                  btnStyle = {
+                    ...btnStyle,
+                    background: "#fee2e2",
+                    borderColor: "#ef4444",
+                  };
+                }
+              }
+              return (
+                <motion.button
+                  key={optKey}
+                  data-ocid={`quiz.answer_button.${i + 1}` as string}
+                  type="button"
+                  onClick={() => handleAnswer(i)}
+                  disabled={selectedAnswer !== null}
+                  whileHover={selectedAnswer === null ? { scale: 1.02 } : {}}
+                  whileTap={selectedAnswer === null ? { scale: 0.97 } : {}}
+                  className="w-full text-right py-3 px-5 rounded-2xl border-2 font-bold text-base transition-all duration-200 shadow-sm disabled:cursor-not-allowed"
+                  style={btnStyle}
+                >
+                  {opt}
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ── Main App ──
 export default function App() {
   const { actor, isFetching } = useActor();
@@ -995,6 +1664,41 @@ export default function App() {
         fontSize: "1.1rem",
       },
     });
+  }
+
+  // ── Quiz completion state ──
+  const [quizCompletedStories, setQuizCompletedStories] = useState<Set<string>>(
+    () => {
+      try {
+        const stored = localStorage.getItem("quizCompletedStories");
+        if (stored) return new Set<string>(JSON.parse(stored));
+      } catch {}
+      return new Set<string>();
+    },
+  );
+
+  function markQuizComplete(storyId: string) {
+    setQuizCompletedStories((prev) => {
+      const next = new Set(prev);
+      next.add(storyId);
+      try {
+        localStorage.setItem("quizCompletedStories", JSON.stringify([...next]));
+      } catch {}
+      return next;
+    });
+    toast.success(
+      "رائع! أكملتَ اختبار القبعات الست 🏆 نمت ورقة ذهبية على شجرتك!",
+      {
+        style: {
+          background: "#fefce8",
+          color: "#713f12",
+          fontFamily: "'Tajawal', sans-serif",
+          fontWeight: "800",
+          fontSize: "1rem",
+        },
+        duration: 4000,
+      },
+    );
   }
 
   // ── Music player state ──
@@ -1279,7 +1983,10 @@ export default function App() {
         </motion.div>
 
         {/* Reading Progress Tree */}
-        <ReadingProgressTree completedCount={completedStories.size} />
+        <ReadingProgressTree
+          completedCount={completedStories.size}
+          quizCompletedCount={quizCompletedStories.size}
+        />
 
         {/* Section Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-4xl">
@@ -1740,6 +2447,57 @@ export default function App() {
 
                   {/* Little Storyteller - for all stories */}
                   <LittleStoryteller />
+
+                  {/* Six Thinking Hats Quiz */}
+                  <div className="mt-8 px-4">
+                    <div className="text-center mb-4">
+                      <h3
+                        className="text-2xl font-black text-purple-700"
+                        style={{ fontFamily: "'Tajawal', sans-serif" }}
+                        dir="rtl"
+                      >
+                        🎩 اختبار القبعات الست
+                      </h3>
+                      <p
+                        className="text-gray-500 text-sm mt-1"
+                        style={{ fontFamily: "'Tajawal', sans-serif" }}
+                        dir="rtl"
+                      >
+                        ارتدِ كل قبعة وأجب على سؤالها!
+                      </p>
+                    </div>
+                    {quizCompletedStories.has(selectedStory.id.toString()) ? (
+                      <div
+                        className="text-center p-6 rounded-3xl bg-yellow-50 border-2 border-yellow-300"
+                        dir="rtl"
+                      >
+                        <div className="text-5xl mb-2">🏆</div>
+                        <p
+                          className="text-yellow-700 font-black text-xl"
+                          style={{ fontFamily: "'Tajawal', sans-serif" }}
+                        >
+                          أحسنتَ! أكملتَ اختبار القبعات الست
+                        </p>
+                        <p
+                          className="text-yellow-600 text-base mt-1"
+                          style={{ fontFamily: "'Tajawal', sans-serif" }}
+                        >
+                          نمت ورقة ذهبية على شجرتك! 🌟
+                        </p>
+                      </div>
+                    ) : (
+                      <SixHatsQuiz
+                        storyId={selectedStory.id.toString()}
+                        storyIndex={
+                          stories.findIndex((s) => s.id === selectedStory.id) %
+                          3
+                        }
+                        onQuizComplete={() =>
+                          markQuizComplete(selectedStory.id.toString())
+                        }
+                      />
+                    )}
+                  </div>
 
                   {/* Complete story button */}
                   <div className="flex justify-center mt-6">
