@@ -108,6 +108,15 @@ const SEED_STORIES = [
     bodyAr:
       "زَعَموا أَنَّهُ كانَ في غَديرٍ ثَلاثُ سَمَكاتٍ: حَازِمَةٌ، وَعاجِزَةٌ، وَكَسولَةٌ. وَفي يَومٍ جاءَ صَيّادانِ وَتَواعَدا أَن يَأتِيا بِشِباكِهِما لِيَصيدا ما فيهِ. سَمِعَت السَّمَكاتُ قَولَهُما. فَأَمّا الحَازِمَةُ، فَلَم تَنتَظِر؛ بَل خَرَجَت فَوراً مِن مَخرَجِ الماءِ إِلى النَّهرِ وَنَجَت. وَأَمّا العاجِزَةُ، فَانتَظَرَت حَتّى جاءَ الصَيّادانِ، فَتَظاهَرَت بِالمَوتِ فَطَفَت عَلى الماءِ، فَظَنَّها الصَيّادُ مَيِّتَةً فَرَمى بِها فَنَجَت. وَأَمّا الكَسولَةُ، فَبَقِيَت تُماطِلُ حَتّى اصطيدَت. وَكانَ في ذلِكَ عِبرَةٌ: مَن تَسرَّعَ في النَّجاةِ نَجا، وَمَن تَرَدَّدَ هَلَك.",
   },
+  {
+    title: "The Donkey and the Ox",
+    titleAr: "الحمار والثور",
+    emoji: "🐂",
+    colorTheme: "amber",
+    body: "A rich merchant owned both an ox and a donkey. The ox labored hard in the fields while the donkey rested. The cunning donkey advised the ox to feign sickness. But the merchant overheard and put the donkey to work instead. After a long exhausting day, the donkey regretted his advice. He then tricked the ox back to work with a false warning. The donkey learned a valuable lesson: clever tricks always have consequences.",
+    bodyAr:
+      'كان هناك تاجر غني يملك ثوراً وحماراً. وفي يوم من الأيام، سمع التاجر الثور يشكو للحمار من تعبه في الحرث والعمل الشاق، بينما الحمار يستريح ويأكل جيداً ولا يُركب إلا قليلاً.\n\nفقال له الحمار بخبث: "يا صديقي، إذا جاءك الحرّاث لتعمل، فتظاهر بالمرض ولا تأكل علفك، حينها سيتركك التاجر لتستريح".\nسمع التاجر هذا الكلام وسكت. وفي الصباح، فعل الثور ما نصحه به الحمار، فظنه التاجر مريضاً. ولكن التاجر قال: "بما أن الثور مريض، فليأخذ الحمار مكانه ويقوم بعمل الحرث طوال اليوم!"\n\nعاد الحمار في المساء منهكاً محطماً، وقد ندم على نصيحته. فقال له الثور: "شكراً لك يا صديقي، لقد ارتحتُ بفضلك". فكر الحمار في حيلة لينقذ نفسه، فقال للثور: "لقد سمعت التاجر يقول إن الثور إذا لم يقم للعمل غداً فسيذبحه!". خاف الثور وقام في الصباح الباكر ليعمل بكل نشاط، ونجا الحمار من العمل الشاق، وتعلم درساً لن ينساه.',
+  },
 ];
 
 const EMPTY_FORM = {
@@ -1113,6 +1122,7 @@ interface QuizQuestion {
   question: string;
   options: string[];
   correct: number;
+  specialReward?: boolean;
 }
 
 const QUIZ_DATA: Record<number, QuizQuestion[]> = {
@@ -1410,12 +1420,12 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#f8fafc",
       border: "#94a3b8",
       textColor: "#1e293b",
-      question: "كَم عَدَدُ السَّمَكاتِ في القِصَّةِ وَما أَسماؤُهُنَّ؟",
+      question: "أين كانت تعيش السمكات الثلاث؟ وماذا سمعت من الصيادين؟",
       options: [
-        "ثَلاثٌ: حازِمَةٌ وعاجِزَةٌ وكَسولَةٌ",
-        "اثنَتانِ: حازِمَةٌ وكَسولَةٌ",
-        "أَربَعٌ: حازِمَةٌ وعاجِزَةٌ وكَسولَةٌ وذَكِيَّةٌ",
-        "ثَلاثٌ: كَبيرَةٌ وصَغيرَةٌ وَوَسَطٌ",
+        "كانت تعيش في غدير، وسمعت الصيادين يتواعدون على الصيد فيه",
+        "كانت تعيش في البحر، ولم تسمع شيئاً",
+        "كانت تعيش في نهر، وسمعت عن عاصفة قادمة",
+        "كانت تعيش في بحيرة، وسمعت عن صيادين في مكان بعيد",
       ],
       correct: 0,
     },
@@ -1426,12 +1436,12 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#fef2f2",
       border: "#ef4444",
       textColor: "#7f1d1d",
-      question: "بِماذا شَعَرَت السَّمَكَةُ الكَسولَةُ عِندَما وَقَعَت في الشَّبَكَةِ؟",
+      question: "بماذا شعرت السمكة الحازمة عندما سمعت بقدوم الصيادين؟",
       options: [
-        "بِالنَّدَمِ لِأَنَّها لَم تُبادِر",
-        "بِالسَّعادَةِ لِأَنَّها لَم تَتعَب",
-        "بِعَدَمِ الاكتِراثِ",
-        "بِالفَخرِ بِنَفسِها",
+        "شعرت بالقلق والحذر فقررت المغادرة فوراً",
+        "شعرت بالسعادة ولم تتحرك",
+        "شعرت بالنعاس ولم تكترث",
+        "شعرت بالغضب وهاجمت الصيادين",
       ],
       correct: 0,
     },
@@ -1442,12 +1452,12 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#1e293b",
       border: "#334155",
       textColor: "#f1f5f9",
-      question: "ما عاقِبَةُ المُماطَلَةِ وَتَأجيلِ القَراراتِ كَما في القِصَّةِ؟",
+      question: "ما هو الخطر الذي وقعت فيه السمكة الكسولة بسبب مماطلتها؟",
       options: [
-        "الوُقوعُ في الخَطَرِ وَالضَّياعُ",
-        "النَّجاحُ في نِهايَةِ المَطافِ",
-        "الحُصولُ عَلى المَساعَدَةِ",
-        "لا شَيءَ يَتَغَيَّر",
+        "وقعت في شبكة الصيادين ولم تستطع النجاة",
+        "اصطدمت بصخرة في الماء وأصيبت",
+        "ابتلعتها سمكة أكبر منها",
+        "ضاعت في الغدير ولم تجد طريقها",
       ],
       correct: 0,
     },
@@ -1458,12 +1468,13 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#fefce8",
       border: "#eab308",
       textColor: "#713f12",
-      question: "ما فائِدَةُ اتِّخاذِ القَرارِ السَّريعِ مِثلَ السَّمَكَةِ الحازِمَةِ؟",
+      question:
+        "ما هي الفائدة التي جنتها السمكة الحازمة من اتخاذ قرارها السريع؟",
       options: [
-        "يُنقِذُكَ مِنَ الأَخطارِ قَبلَ فَواتِ الأَوانِ",
-        "يُسَبِّبُ لَكَ مَشاكِلَ أَكثَرَ",
-        "لا يَجدي نَفعاً",
-        "يُغضِبُ الآخَرين",
+        "نجت بسلام قبل وصول الصيادين وأمنت حياتها",
+        "أصبحت ملكة الغدير",
+        "حصلت على طعام أكثر من غيرها",
+        "اكتسبت أصدقاء جدد في النهر",
       ],
       correct: 0,
     },
@@ -1474,12 +1485,13 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#f0fdf4",
       border: "#22c55e",
       textColor: "#14532d",
-      question: "لَو كُنتَ مَكانَ السَّمَكَةِ الكَسولَةِ، كَيفَ كُنتَ سَتَنجو بِطَريقَةٍ مُبتَكَرَةٍ؟",
+      question:
+        "لو كنتَ مكان السمكة العاجزة، ما هي الحيلة الأخرى التي كنتَ ستبتكرها للنجاة؟",
       options: [
-        "كُنتُ سَأَتَظاهَرُ بِالمَرَضِ",
-        "كُنتُ سَأَطلُبُ المُساعَدَةَ",
-        "كُنتُ سَأَبحَثُ عَن مَخرَجٍ آخَر",
-        "كُنتُ سَأَبقى وَأَتَقَبَّلُ النَّتيجَة",
+        "كنتُ سأتظاهر بالموت مثلما فعلت السمكة العاجزة",
+        "كنتُ سأطلب المساعدة من أسماك أخرى",
+        "كنتُ سأبحث عن مخرج سري في قاع الغدير",
+        "كل فكرة إبداعية منك تستحق التقدير! 🌟",
       ],
       correct: -1,
     },
@@ -1490,14 +1502,117 @@ const QUIZ_DATA: Record<number, QuizQuestion[]> = {
       bg: "#eff6ff",
       border: "#3b82f6",
       textColor: "#1e3a8a",
-      question: "ما الدَّرسُ الأَهَمُّ الَّذي تَعَلَّمتَهُ مِن قِصَّةِ السَّمَكاتِ الثَّلاثِ؟",
+      question: "ما هو الدرس المستفاد الذي ستطبقه في حياتك من هذه القصة؟",
       options: [
-        "الحازِمُ يَنجو وَالمُتَرَدِّدُ يَخسَر",
-        "التَّأَنّي دائِماً أَفضَل",
-        "الذَّكاءُ وَحدَهُ يَكفي",
-        "الصَّبرُ مِفتاحُ الفَرَج",
+        "سأبادر بسرعة عند أي خطر ولن أؤجل قراراتي المهمة",
+        "سأنتظر دائماً حتى تنتهي المشكلة وحدها",
+        "سأتجنب التفكير في المشكلات",
+        "لن أتعلم من تجارب الآخرين",
       ],
       correct: 0,
+    },
+  ],
+  4: [
+    {
+      hat: "white",
+      hatEmoji: "🎩",
+      hatLabel: "القبعة البيضاء – الحقائق",
+      bg: "#f8fafc",
+      border: "#94a3b8",
+      textColor: "#1e293b",
+      question: "ماذا فعل التاجر بالحمار عندما تظاهر الثور بالمرض؟",
+      options: [
+        "أمر الحمار بأخذ مكان الثور والحرث طوال اليوم",
+        "أطعم الحمار علفاً إضافياً ليستريح",
+        "باع الحمار في السوق بدلاً من الثور",
+        "أرسل الحمار إلى الطبيب البيطري للفحص",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "red",
+      hatEmoji: "❤️",
+      hatLabel: "القبعة الحمراء – المشاعر",
+      bg: "#fef2f2",
+      border: "#ef4444",
+      textColor: "#7f1d1d",
+      question:
+        "صف شعور الحمار عندما عاد من الحقل في نهاية اليوم الأول من العمل الشاق.",
+      options: [
+        "شعر بالندم والإرهاق الشديد بعد أن جنى ثمار نصيحته السيئة",
+        "شعر بالسعادة لأنه ساعد صديقه الثور",
+        "شعر بالفخر لأنه أثبت قدرته على العمل",
+        "كل وصف صادق لمشاعرك هو إجابة صحيحة! 🌟",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "black",
+      hatEmoji: "🖤",
+      hatLabel: "القبعة السوداء – المخاطر",
+      bg: "#1e293b",
+      border: "#334155",
+      textColor: "#f1f5f9",
+      question:
+        "ما هو الخطر الذي وقع فيه الحمار عندما حاول أن يكون 'ذكياً' على حساب عمل الآخرين؟",
+      options: [
+        "انقلبت الحيلة عليه فاضطر للعمل بدلاً من الثور طوال اليوم",
+        "هرب الثور من المزرعة وترك الحمار وحيداً",
+        "عاقبه التاجر بحرمانه من الطعام لأسبوع كامل",
+        "أصيب الحمار بمرض حقيقي بسبب التعب",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "yellow",
+      hatEmoji: "⭐",
+      hatLabel: "القبعة الصفراء – الفوائد",
+      bg: "#fefce8",
+      border: "#eab308",
+      textColor: "#713f12",
+      question:
+        "ما هي الفائدة التي حصل عليها الثور من نصيحة الحمار في البداية؟",
+      options: [
+        "استراح يوماً كاملاً من الحرث الشاق بفضل تظاهره بالمرض",
+        "حصل على علاج مجاني من الطبيب البيطري",
+        "أصبح صديقاً مقرباً من التاجر",
+        "تعلم مهارات جديدة في الحراثة",
+      ],
+      correct: 0,
+    },
+    {
+      hat: "green",
+      hatEmoji: "🌿",
+      hatLabel: "القبعة الخضراء – الإبداع",
+      bg: "#f0fdf4",
+      border: "#22c55e",
+      textColor: "#14532d",
+      question: "لو كنتَ مكان الحمار، كيف كنتَ ستنصح الثور دون أن تؤذي نفسك؟",
+      options: [
+        "كنتُ سأنصحه بطلب الراحة بصدق من التاجر بدلاً من التظاهر",
+        "كنتُ سأتجاهله ولا أتدخل في أمره",
+        "كنتُ سأقترح عليه مقاومة التاجر معاً",
+        "كل فكرة إبداعية منك تستحق التقدير! 🌟",
+      ],
+      correct: -1,
+    },
+    {
+      hat: "blue",
+      hatEmoji: "💙",
+      hatLabel: "القبعة الزرقاء – الخلاصة",
+      bg: "#eff6ff",
+      border: "#3b82f6",
+      textColor: "#1e3a8a",
+      question:
+        "ما هي الحكمة التي تعلمتها من هذه القصة حول تقديم النصيحة للآخرين؟",
+      options: [
+        "النصيحة السيئة تعود على صاحبها بالضرر، فعليك أن تنصح بصدق",
+        "يجب دائماً مساعدة الأصدقاء حتى لو كانت المساعدة خاطئة",
+        "الذكاء الحقيقي هو الاستفادة من مشكلات الآخرين",
+        "لا تنصح أحداً لتتجنب المشاكل",
+      ],
+      correct: 0,
+      specialReward: true,
     },
   ],
 };
@@ -1518,6 +1633,7 @@ function SixHatsQuiz({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [showTenStars, setShowTenStars] = useState(false);
   const _ = storyId; // used externally
 
   function handleAnswer(optionIdx: number) {
@@ -1528,12 +1644,65 @@ function SixHatsQuiz({
       setShowFeedback(false);
       setSelectedAnswer(null);
       if (currentQ + 1 >= questions.length) {
-        setCompleted(true);
-        onQuizComplete();
+        const lastQ = questions[questions.length - 1];
+        if (lastQ.specialReward) {
+          setShowTenStars(true);
+          setTimeout(() => {
+            setShowTenStars(false);
+            setCompleted(true);
+            onQuizComplete();
+          }, 3000);
+        } else {
+          setCompleted(true);
+          onQuizComplete();
+        }
       } else {
         setCurrentQ((q) => q + 1);
       }
     }, 1200);
+  }
+
+  if (showTenStars) {
+    return (
+      <motion.div
+        data-ocid="quiz.success_state"
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 180 }}
+        className="rounded-3xl p-8 text-center shadow-2xl border-4 border-yellow-400"
+        style={{ background: "linear-gradient(135deg, #1e3a8a, #2563eb)" }}
+        dir="rtl"
+      >
+        <div className="text-5xl mb-3">🌟</div>
+        <h3
+          className="text-3xl font-black text-yellow-300 mb-2"
+          style={{ fontFamily: "'Tajawal', sans-serif" }}
+        >
+          أنت مفكر عبقري!
+        </h3>
+        <p
+          className="text-yellow-200 text-lg font-bold mb-4"
+          style={{ fontFamily: "'Tajawal', sans-serif" }}
+        >
+          لقد حصلتَ على 10 نجوم ذهبية لأنك وصلتَ إلى الحكمة النهائية
+        </p>
+        <div className="flex justify-center gap-1 flex-wrap mt-2">
+          {Array.from({ length: 10 }, (_, i) => `star-${i}`).map(
+            (starKey, i) => (
+              <motion.span
+                key={starKey}
+                initial={{ y: 40, opacity: 0, scale: 0 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.15, type: "spring", stiffness: 300 }}
+                className="text-4xl"
+              >
+                ⭐
+              </motion.span>
+            ),
+          )}
+        </div>
+      </motion.div>
+    );
   }
 
   if (completed) {
@@ -1940,12 +2109,509 @@ function CertificateModal({
   );
 }
 
+// ── Music Section ──
+function MusicSection({ onBack }: { onBack: () => void }) {
+  const [playingTrack, setPlayingTrack] = useState<number | null>(null);
+  const [selectedInstrument, setSelectedInstrument] = useState<string | null>(
+    null,
+  );
+  const [micPressed, setMicPressed] = useState(false);
+  const [stars, setMusicalStars] = useState(0);
+  const [activeLine, setActiveLine] = useState(0);
+
+  const tracks = [
+    {
+      id: 1,
+      name: "نغمة الطبيعة",
+      emoji: "🌿",
+      color: "from-emerald-400 to-teal-500",
+    },
+    {
+      id: 2,
+      name: "مغامرة البطل",
+      emoji: "🌟",
+      color: "from-amber-400 to-orange-500",
+    },
+    {
+      id: 3,
+      name: "لحن الأحلام",
+      emoji: "🌙",
+      color: "from-purple-400 to-indigo-500",
+    },
+  ];
+
+  const instruments = [
+    { emoji: "🎹", nameAr: "بيانو" },
+    { emoji: "🎸", nameAr: "جيتار" },
+    { emoji: "🥁", nameAr: "طبول" },
+    { emoji: "🎺", nameAr: "ترومبيت" },
+  ];
+
+  const poemLines = [
+    "أنا أقرأ كل يوم 📖",
+    "وأتعلم في كل حين 🌟",
+    "شجرتي تكبر وتنمو 🌳",
+    "بالعلم والتمكين ✨",
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveLine((prev) => (prev + 1) % poemLines.length);
+    }, 2000);
+    return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleTrack = (id: number) => {
+    setPlayingTrack((prev) => (prev === id ? null : id));
+  };
+
+  const handleInstrument = (nameAr: string) => {
+    setSelectedInstrument(nameAr);
+    setMusicalStars((s) => s + 1);
+    setTimeout(() => setSelectedInstrument(null), 2000);
+  };
+
+  const handleMic = () => {
+    setMicPressed(true);
+    setMusicalStars((s) => s + 1);
+    setTimeout(() => setMicPressed(false), 2000);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      style={{
+        background:
+          "linear-gradient(135deg, #667eea 0%, #764ba2 40%, #06b6d4 100%)",
+      }}
+      dir="rtl"
+    >
+      {/* Header */}
+      <div
+        className="sticky top-0 z-10 px-4 pt-4 pb-3"
+        style={{
+          background: "rgba(102,126,234,0.95)",
+          backdropFilter: "blur(12px)",
+        }}
+      >
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            data-ocid="music.back_button"
+            onClick={onBack}
+            className="w-11 h-11 rounded-2xl bg-white/20 hover:bg-white/30 flex items-center justify-center text-white text-xl transition-all active:scale-95"
+          >
+            ←
+          </button>
+          <div>
+            <h1
+              className="text-2xl font-black text-white"
+              style={{ fontFamily: "'Tajawal', sans-serif" }}
+            >
+              عالَم الموسيقى 🎵
+            </h1>
+            <p
+              className="text-white/80 text-sm"
+              style={{ fontFamily: "'Tajawal', sans-serif" }}
+            >
+              استمتع بالألحان والأغاني
+            </p>
+          </div>
+          {/* Stars counter */}
+          <div
+            data-ocid="music.stars.panel"
+            className="mr-auto bg-yellow-400 text-yellow-900 rounded-2xl px-3 py-1.5 font-black text-sm flex items-center gap-1"
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            ⭐ {stars}
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pb-8 space-y-6 mt-4">
+        {/* Music Tracks */}
+        <div className="bg-white/15 backdrop-blur-sm rounded-3xl p-5">
+          <h2
+            className="text-white font-black text-xl mb-4 text-center"
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            🎶 قائمة الألحان
+          </h2>
+          <div className="space-y-3">
+            {tracks.map((track, i) => {
+              const isPlaying = playingTrack === track.id;
+              return (
+                <button
+                  key={track.id}
+                  type="button"
+                  data-ocid={`music.track.button.${i + 1}`}
+                  onClick={() => handleTrack(track.id)}
+                  className={`w-full rounded-2xl p-4 flex items-center gap-4 transition-all active:scale-98 ${
+                    isPlaying
+                      ? `bg-gradient-to-l ${track.color} shadow-lg`
+                      : "bg-white/20 hover:bg-white/30"
+                  }`}
+                >
+                  <span className="text-3xl">{track.emoji}</span>
+                  <span
+                    className="text-white font-black text-lg flex-1 text-right"
+                    style={{ fontFamily: "'Tajawal', sans-serif" }}
+                  >
+                    {track.name}
+                  </span>
+                  {isPlaying ? (
+                    <div className="flex items-end gap-0.5 h-6">
+                      {[0, 1, 2, 3].map((bar) => (
+                        <div
+                          key={bar}
+                          className="w-1.5 bg-white rounded-full animate-bounce"
+                          style={{
+                            height: `${[16, 24, 12, 20][bar]}px`,
+                            animationDelay: `${bar * 0.15}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-white/60 text-2xl">▶</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Instrument Mini-Game */}
+        <div className="bg-white/15 backdrop-blur-sm rounded-3xl p-5">
+          <h2
+            className="text-white font-black text-xl mb-2 text-center"
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            🎹 خمّن الآلة الموسيقية!
+          </h2>
+          {selectedInstrument ? (
+            <div
+              className="bg-yellow-400 text-yellow-900 rounded-2xl p-4 text-center font-black text-lg animate-bounce"
+              style={{ fontFamily: "'Tajawal', sans-serif" }}
+            >
+              رائع! اخترت {selectedInstrument}! أنت موسيقار صغير 🌟
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-3 mt-3">
+              {instruments.map((inst, i) => (
+                <button
+                  key={inst.nameAr}
+                  type="button"
+                  data-ocid={`music.instrument.button.${i + 1}`}
+                  onClick={() => handleInstrument(inst.nameAr)}
+                  className="bg-white/20 hover:bg-white/40 rounded-2xl py-4 flex flex-col items-center gap-1 transition-all active:scale-90"
+                >
+                  <span className="text-3xl">{inst.emoji}</span>
+                  <span
+                    className="text-white text-xs font-bold"
+                    style={{ fontFamily: "'Tajawal', sans-serif" }}
+                  >
+                    {inst.nameAr}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Sing-Along */}
+        <div className="bg-white/15 backdrop-blur-sm rounded-3xl p-5">
+          <h2
+            className="text-white font-black text-xl mb-4 text-center"
+            style={{ fontFamily: "'Tajawal', sans-serif" }}
+          >
+            🎤 أغنية الحكواتي الصغير
+          </h2>
+          <div className="space-y-2 mb-5">
+            {poemLines.map((line, i) => (
+              <div
+                key={line}
+                className={`rounded-xl px-4 py-3 text-center font-black text-lg transition-all duration-500 ${
+                  activeLine === i
+                    ? "bg-white text-purple-700 shadow-lg scale-105"
+                    : "bg-white/20 text-white/80"
+                }`}
+                style={{ fontFamily: "'Tajawal', sans-serif" }}
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+          {micPressed ? (
+            <div
+              className="bg-green-400 text-green-900 rounded-2xl p-4 text-center font-black text-lg animate-pulse"
+              style={{ fontFamily: "'Tajawal', sans-serif" }}
+            >
+              أحسنت! صوتك جميل يا بطل! 🌟
+            </div>
+          ) : (
+            <button
+              type="button"
+              data-ocid="music.singalong.button"
+              onClick={handleMic}
+              className="w-full bg-gradient-to-l from-pink-500 to-rose-500 text-white rounded-2xl py-4 font-black text-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg"
+              style={{ fontFamily: "'Tajawal', sans-serif" }}
+            >
+              🎤 غنّ مع الأغنية
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Drawing Canvas ──
+function DrawingCanvas({ onBack }: { onBack: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [color, setColor] = useState("#22c55e");
+  const [brushSize, setBrushSize] = useState(6);
+  const [tool, setTool] = useState<"pen" | "eraser">("pen");
+  const [showShareModal, setShowShareModal] = useState(false);
+  const lastPos = useRef<{ x: number; y: number } | null>(null);
+  const prompts = ["ارسم نهاية مختلفة للقصة 🐟", "ارسم السمكة المفضلة لديك 🎨"];
+  const [promptIdx] = useState(() => Math.floor(Math.random() * 2));
+
+  const getPos = (
+    e: React.MouseEvent | React.TouchEvent,
+    canvas: HTMLCanvasElement,
+  ) => {
+    const rect = canvas.getBoundingClientRect();
+    if ("touches" in e) {
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top,
+      };
+    }
+    return {
+      x: (e as React.MouseEvent).clientX - rect.left,
+      y: (e as React.MouseEvent).clientY - rect.top,
+    };
+  };
+
+  const startDraw = (e: React.MouseEvent | React.TouchEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    setIsDrawing(true);
+    lastPos.current = getPos(e, canvas);
+  };
+
+  const draw = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    e.preventDefault();
+    const pos = getPos(e, canvas);
+    ctx.beginPath();
+    ctx.moveTo(lastPos.current!.x, lastPos.current!.y);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = tool === "eraser" ? "#ffffff" : color;
+    ctx.lineWidth = tool === "eraser" ? brushSize * 3 : brushSize;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.stroke();
+    lastPos.current = pos;
+  };
+
+  const stopDraw = () => {
+    setIsDrawing(false);
+    lastPos.current = null;
+  };
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
+  const saveDrawing = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const link = document.createElement("a");
+    link.download = "رسمتي.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
+  const colors = [
+    "#ef4444",
+    "#f97316",
+    "#eab308",
+    "#22c55e",
+    "#3b82f6",
+    "#8b5cf6",
+    "#ec4899",
+    "#000000",
+    "#ffffff",
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-gradient-to-b from-sky-100 to-emerald-50 flex flex-col"
+      dir="rtl"
+    >
+      {/* Header */}
+      <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-4 text-white text-center relative shadow-lg">
+        <button
+          type="button"
+          onClick={onBack}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-2xl font-bold px-3 py-1 rounded-full bg-white/20 hover:bg-white/30"
+          data-ocid="drawing.back.button"
+        >
+          ←
+        </button>
+        <h1 className="text-2xl font-black">🎨 لوحة الرسم</h1>
+        <p className="text-sm mt-1 opacity-90">{prompts[promptIdx]}</p>
+      </div>
+
+      {/* Canvas */}
+      <div className="flex-1 flex items-center justify-center p-2 overflow-hidden">
+        <canvas
+          ref={canvasRef}
+          width={Math.min(window.innerWidth - 16, 600)}
+          height={Math.min(window.innerHeight - 280, 500)}
+          className="bg-white rounded-2xl shadow-xl border-4 border-emerald-300 touch-none"
+          onMouseDown={startDraw}
+          onMouseMove={draw}
+          onMouseUp={stopDraw}
+          onMouseLeave={stopDraw}
+          onTouchStart={startDraw}
+          onTouchMove={draw}
+          onTouchEnd={stopDraw}
+          data-ocid="drawing.canvas_target"
+          style={{ cursor: tool === "eraser" ? "cell" : "crosshair" }}
+        />
+      </div>
+
+      {/* Toolbar */}
+      <div className="bg-white border-t-2 border-emerald-200 p-3 space-y-2 shadow-lg">
+        {/* Colors */}
+        <div className="flex justify-center gap-2 flex-wrap">
+          {colors.map((c) => (
+            <button
+              type="button"
+              key={c}
+              onClick={() => {
+                setColor(c);
+                setTool("pen");
+              }}
+              className="w-8 h-8 rounded-full border-4 transition-transform active:scale-90"
+              style={{
+                backgroundColor: c,
+                borderColor: color === c && tool === "pen" ? "#000" : "#e5e7eb",
+                transform:
+                  color === c && tool === "pen" ? "scale(1.2)" : "scale(1)",
+              }}
+              data-ocid="drawing.toggle"
+            />
+          ))}
+        </div>
+        {/* Brush sizes + tool buttons */}
+        <div className="flex justify-center gap-3 items-center">
+          {[4, 8, 14].map((s) => (
+            <button
+              type="button"
+              key={s}
+              onClick={() => {
+                setBrushSize(s);
+                setTool("pen");
+              }}
+              className={`rounded-full bg-gray-200 flex items-center justify-center transition-all ${brushSize === s && tool === "pen" ? "ring-2 ring-emerald-500 bg-emerald-100" : ""}`}
+              style={{ width: s * 3 + 16, height: s * 3 + 16 }}
+              data-ocid="drawing.toggle"
+            >
+              <div
+                className="rounded-full bg-gray-600"
+                style={{ width: s, height: s }}
+              />
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setTool("eraser")}
+            className={`px-3 py-2 rounded-xl text-lg font-bold transition-all ${tool === "eraser" ? "bg-pink-200 ring-2 ring-pink-500" : "bg-gray-100"}`}
+            data-ocid="drawing.toggle"
+          >
+            🧹
+          </button>
+          <button
+            type="button"
+            onClick={clearCanvas}
+            className="px-3 py-2 rounded-xl bg-red-100 text-red-600 font-bold text-sm"
+            data-ocid="drawing.delete_button"
+          >
+            مسح الكل
+          </button>
+        </div>
+        {/* Save / Share */}
+        <div className="flex gap-3 justify-center">
+          <button
+            type="button"
+            onClick={saveDrawing}
+            className="flex-1 max-w-xs bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-2xl font-black text-lg shadow-md active:scale-95 transition-transform"
+            data-ocid="drawing.save.primary_button"
+          >
+            💾 احفظ رسمتي
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowShareModal(true)}
+            className="flex-1 max-w-xs bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-2xl font-black text-lg shadow-md active:scale-95 transition-transform"
+            data-ocid="drawing.share.primary_button"
+          >
+            📤 شارك مع الفصل
+          </button>
+        </div>
+      </div>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div
+            className="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl"
+            data-ocid="drawing.dialog"
+          >
+            <div className="text-5xl mb-3">🌟</div>
+            <h2 className="text-2xl font-black text-emerald-700 mb-2">
+              أحسنتَ!
+            </h2>
+            <p className="text-lg text-gray-700 mb-4">
+              تمت مشاركة رسمتك مع الفصل بنجاح!
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowShareModal(false)}
+              className="bg-emerald-500 text-white px-8 py-3 rounded-2xl font-black text-lg"
+              data-ocid="drawing.dialog.close_button"
+            >
+              حسناً 🎉
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main App ──
 export default function App() {
   const { actor, isFetching } = useActor();
 
   // UI state
   const [showStories, setShowStories] = useState(false);
+  const [showDrawing, setShowDrawing] = useState(false);
+  const [showMusic, setShowMusic] = useState(false);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [adminMode, setAdminMode] = useState(false);
   const gearTapsRef = useRef(0);
@@ -2246,6 +2912,10 @@ export default function App() {
     <div className="relative min-h-screen sparkle-bg overflow-hidden">
       <Toaster />
 
+      {/* Drawing Canvas Overlay */}
+      {showDrawing && <DrawingCanvas onBack={() => setShowDrawing(false)} />}
+      {showMusic && <MusicSection onBack={() => setShowMusic(false)} />}
+
       {/* Floating background stars */}
       {stars.map((star, i) => (
         <div
@@ -2365,6 +3035,7 @@ export default function App() {
             <button
               type="button"
               data-ocid="draw.card"
+              onClick={() => setShowDrawing(true)}
               className="card-draw w-full rounded-3xl p-8 md:p-10 flex flex-col items-center cursor-pointer transition-all duration-200 select-none"
             >
               <div className="mb-4 drop-shadow-lg">
@@ -2400,6 +3071,7 @@ export default function App() {
             <button
               type="button"
               data-ocid="music.card"
+              onClick={() => setShowMusic(true)}
               className="card-music w-full rounded-3xl p-8 md:p-10 flex flex-col items-center cursor-pointer transition-all duration-200 select-none"
             >
               <div className="mb-4 drop-shadow-lg">
